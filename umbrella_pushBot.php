@@ -32,7 +32,7 @@ $tx_time = "";
 
 for($i = 0 ; $i < 3 ; $i++){
     //文字列から％を取り除く
-    $word = rtrim($rain_day[0], "%");
+    $word = rtrim($rain_day[$i], "%");
     //文字列が--の場合0を代入
     if(strcmp("--" , $word ) == 1){
         $rain_int[$i] = 0;
