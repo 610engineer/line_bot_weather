@@ -1,6 +1,5 @@
 #!/usr/bin/php
 <?php
-require_once('phpQuery-onefile.php');
 $channelToken = ''; //アクセストークン
 $headers = [
 	'Authorization: Bearer ' . $channelToken,
@@ -8,12 +7,21 @@ $headers = [
 ];
 
 //気象庁愛知県の天気予報サイト
-$html = file_get_contents("https://www.jma.go.jp/jp/yoho/329.html");
+$url = "https://www.jma.go.jp/bosai/forecast/data/forecast/230000.json";
+$json = file_get_contents($url);
+
+//echo $json;
+$arr = json_decode($json , true);
+
 
 //降水確率の文字列を取得
-$rain_day[0] = phpQuery::newDocument($html)->find("#base")->find("#main")->find("div")->find("#forecasttablefont")->find("td.rain:eq(0)")->find("div")->find("table")->find("td:eq(3)")->text();
-$rain_day[1] = phpQuery::newDocument($html)->find("#base")->find("#main")->find("div")->find("#forecasttablefont")->find("td.rain:eq(0)")->find("div")->find("table")->find("td:eq(5)")->text();
-$rain_day[2] = phpQuery::newDocument($html)->find("#base")->find("#main")->find("div")->find("#forecasttablefont")->find("td.rain:eq(0)")->find("div")->find("table")->find("td:eq(7)")->text();
+$rain_day[0] = $arr[0]["timeSeries"][1]["areas"][0]["pops"][0];
+$rain_day[1] = $arr[0]["timeSeries"][1]["areas"][0]["pops"][1];
+$rain_day[2] = $arr[0]["timeSeries"][1]["areas"][0]["pops"][2];
+
+echo $rain_day[0];
+echo $rain_day[1];
+echo $rain_day[2];
 
 //6-12
 //12-18
